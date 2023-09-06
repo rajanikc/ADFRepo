@@ -1,0 +1,75 @@
+{
+	"name": "pipeline6",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.ArrayStudentFileList",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline5",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": false,
+								"parameters": {
+									"ParamStudentFileName": {
+										"value": "@item()",
+										"type": "Expression"
+									}
+								}
+							}
+						},
+						{
+							"name": "Fail1",
+							"type": "Fail",
+							"dependsOn": [
+								{
+									"activity": "Execute Pipeline1",
+									"dependencyConditions": [
+										"Failed"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"message": "File Coudnt be processed",
+								"errorCode": "File Coudnt be processed"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"ArrayStudentFileList": {
+				"type": "array",
+				"defaultValue": [
+					"StudentList.txt",
+					"StudentList2.txt"
+				]
+			}
+		},
+		"variables": {
+			"[StudentList.txt\"]": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-09-01T14:59:43Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

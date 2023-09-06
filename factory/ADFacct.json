@@ -1,0 +1,17 @@
+{
+	"name": "ADFacct",
+	"properties": {
+		"globalParameters": {
+			"GlobalParam": {
+				"type": "string",
+				"value": "1"
+			}
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "327f8de2-6fe5-4df4-8916-4e7c8a8274e6",
+		"tenantId": "d7c1a3a9-7d84-4653-9359-66a84186bf1a"
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"name": "LinkdServBlobStrgInput",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "LinkedServices for Input Blob Storage",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=rkcstrgacct;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDYzNDI3Q0U1LUY0MjctNDREQy1BMjMyLUUzNjE5NTQ2QUI3Ql9hZTE2NGUxMC0xNDE4LTRhNzctYWJiNi0xNjZjZDQzMWUzYzQiDQp9"
+		}
+	}
+}

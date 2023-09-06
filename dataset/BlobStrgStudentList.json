@@ -1,0 +1,25 @@
+{
+	"name": "BlobStrgStudentList",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkdServBlobStrgInput",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "StudentInfo.txt",
+				"folderPath": "StudentInfo",
+				"container": "blogstorageoutput"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

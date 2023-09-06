@@ -1,0 +1,45 @@
+{
+	"name": "DataSetBlobStrgInput1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkdServBlobStrgInput",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"prmFileNmae": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().prmFileNmae",
+					"type": "Expression"
+				},
+				"container": "blobstrcont"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "10",
+				"type": "String"
+			},
+			{
+				"name": "11",
+				"type": "String"
+			},
+			{
+				"name": "12",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

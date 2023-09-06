@@ -1,0 +1,38 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "var",
+					"value": {
+						"value": "@pipeline().parameters.dddd",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"dddd": {
+				"type": "string",
+				"defaultValue": "'rajani'"
+			}
+		},
+		"variables": {
+			"var": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-08-31T02:35:09Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

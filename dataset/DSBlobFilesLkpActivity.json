@@ -1,0 +1,32 @@
+{
+	"name": "DSBlobFilesLkpActivity",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkdServBlobStrgInput",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"ParamFileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().ParamFileName",
+					"type": "Expression"
+				},
+				"container": "blobstrcont"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
