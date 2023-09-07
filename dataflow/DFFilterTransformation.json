@@ -13,14 +13,25 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "filter1"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          ROLL_NO as string,",
+				"          FIRST_NAME as string,",
+				"          MIDDLE_NAME as string,",
+				"          LAST_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'query',",
 				"     store: 'sqlserver',",
 				"     query: 'SELECT ROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME,\\nLAST_NAME\\nFROM DBO.STUDENT_LIST',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1"
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"source1 filter(ROLL_NO ==! '1') ~> filter1"
 			]
 		}
 	}
