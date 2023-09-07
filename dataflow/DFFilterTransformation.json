@@ -31,7 +31,7 @@
 				"     store: 'sqlserver',",
 				"     query: 'SELECT ROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME,\\nLAST_NAME\\nFROM DBO.STUDENT_LIST',",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
-				"source1 filter(ROLL_NO ==! '1') ~> filter1"
+				"source1 filter(ROLL_NO!='1') ~> filter1"
 			]
 		}
 	}
