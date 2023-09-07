@@ -14,9 +14,9 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "DataSetBlobStrgOutput",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "LinkdServBlobStrgInput",
+						"type": "LinkedServiceReference"
 					},
 					"name": "sink1"
 				}
@@ -37,6 +37,19 @@
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          {_col0_} as string,",
+				"          {_col1_} as string,",
+				"          {_col2_} as string,",
+				"          {_col3_} as string,",
+				"          {_col4_} as string",
+				"     ),",
+				"     format: 'delimited',",
+				"     container: 'blogstorageoutput',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '',",
+				"     columnNamesAsHeader: true,",
 				"     partitionFileNames:[(concat($ParamTargetFileName,'.txt'))],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
