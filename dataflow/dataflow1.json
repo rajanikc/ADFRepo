@@ -25,7 +25,8 @@
 			"scriptLines": [
 				"parameters{",
 				"     ParamSrcTableName as string ('STUDENT_LIST'),",
-				"     ParamSrcSchemaName as string ('dbo')",
+				"     ParamSrcSchemaName as string ('dbo'),",
+				"     ParamTargetFileName as string ('STUDENT_LIST')",
 				"}",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
