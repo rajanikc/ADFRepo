@@ -19,18 +19,9 @@
 						"referenceName": "dataflow1",
 						"type": "DataFlowReference",
 						"parameters": {
-							"ParamSrcTableName": {
-								"value": "'@{Student_list}'",
-								"type": "Expression"
-							},
-							"ParamSrcSchemaName": {
-								"value": "'@{dbo}'",
-								"type": "Expression"
-							},
-							"ParamTargetFileName": {
-								"value": "'@{student_list}'",
-								"type": "Expression"
-							}
+							"ParamSrcTableName": "\"student_list\"",
+							"ParamSrcSchemaName": "\"dbo\"",
+							"ParamTargetFileName": "\"student_list\""
 						}
 					},
 					"compute": {
