@@ -15,6 +15,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().OutPutFileName",
+					"type": "Expression"
+				},
 				"container": "blogstorageoutput"
 			},
 			"columnDelimiter": ",",
@@ -22,20 +26,7 @@
 			"firstRowAsHeader": true,
 			"quoteChar": ""
 		},
-		"schema": [
-			{
-				"name": "10",
-				"type": "String"
-			},
-			{
-				"name": "11",
-				"type": "String"
-			},
-			{
-				"name": "12",
-				"type": "String"
-			}
-		]
+		"schema": []
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
 }
