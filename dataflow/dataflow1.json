@@ -5,9 +5,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "AzureSqlTable1",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
 					},
 					"name": "source1"
 				}
@@ -23,16 +23,17 @@
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(output(",
-				"          ROLL_NO as integer,",
-				"          FIRST_NAME as string,",
-				"          MIDDLE_NAME as string,",
-				"          LAST_NAME as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"parameters{",
+				"     ParamSrcTableName as string ('STUDENT_LIST'),",
+				"     ParamSrcSchemaName as string ('dbo.')",
+				"}",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: '',",
+				"     tableName: '',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
