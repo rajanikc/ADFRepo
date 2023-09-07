@@ -15,16 +15,12 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().OutPutFileName",
-					"type": "Expression"
-				},
 				"container": "blogstorageoutput"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": false,
-			"quoteChar": "\""
+			"firstRowAsHeader": true,
+			"quoteChar": ""
 		},
 		"schema": [
 			{
