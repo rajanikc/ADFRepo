@@ -12,7 +12,15 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LinkdServBlobStrgInput",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "filter1"
@@ -31,7 +39,19 @@
 				"     store: 'sqlserver',",
 				"     query: 'SELECT ROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME,\\nLAST_NAME\\nFROM DBO.STUDENT_LIST',",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
-				"source1 filter(ROLL_NO!='1') ~> filter1"
+				"source1 filter(not(isNull(MIDDLE_NAME))) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     container: 'blogstorageoutput',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false,",
+				"     partitionFileNames:['Modified_Student_list.txt'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     header: (\"List Of Students With Proper Middle Names\")) ~> sink1"
 			]
 		}
 	}
