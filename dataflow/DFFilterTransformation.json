@@ -42,16 +42,24 @@
 				"source1 filter(not(isNull(MIDDLE_NAME))) ~> filter1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          {_col0_} as string,",
+				"          {_col1_} as string,",
+				"          {_col2_} as string,",
+				"          {_col3_} as string,",
+				"          {_col4_} as string",
+				"     ),",
 				"     format: 'delimited',",
 				"     container: 'blogstorageoutput',",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '\\\\',",
-				"     quoteChar: '\\\"',",
+				"     quoteChar: '',",
 				"     columnNamesAsHeader: false,",
 				"     partitionFileNames:['Modified_Student_list.txt'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     header: (\"List Of Students With Proper Middle Names\")) ~> sink1"
+				"     header: ([\"List Of Students With Proper Middle Names\"]),",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
