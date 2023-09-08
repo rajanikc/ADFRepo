@@ -22,7 +22,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "DELETE FROM DBO.STUDENT_LIST"
+							"text": {
+								"value": "@concat('DELETE FROM DBO.',pipeline().parameters.ParamTableName)",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
@@ -33,14 +36,6 @@
 			"ParamTableName": {
 				"type": "string",
 				"defaultValue": "STUDENT_LIST"
-			}
-		},
-		"variables": {
-			"VarFileName": {
-				"type": "String"
-			},
-			"VarFileName2": {
-				"type": "String"
 			}
 		},
 		"annotations": [],
