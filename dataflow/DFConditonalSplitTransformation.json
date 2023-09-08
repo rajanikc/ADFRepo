@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -38,7 +41,14 @@
 				"     ROLL_NO==101,",
 				"     disjoint: true) ~> split1@(rajani, vilasitha, default)",
 				"split1@rajani derive(Full_name = concat(FIRST_NAME,MIDDLE_NAME,LAST_NAME),",
-				"          Initails = concat(substring(FIRST_NAME,1,1),substring(MIDDLE_NAME,1,1),substring(LAST_NAME,1,1))) ~> derivedColumn1"
+				"          Initails = concat(substring(FIRST_NAME,1,1),substring(MIDDLE_NAME,1,1),substring(LAST_NAME,1,1))) ~> derivedColumn1",
+				"split1@vilasitha select(mapColumn(",
+				"          ROLL_NO,",
+				"          FIRST_NAME,",
+				"          LAST_NAME",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}
