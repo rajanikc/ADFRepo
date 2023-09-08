@@ -1,0 +1,45 @@
+{
+	"name": "DFConditonalSplitTransformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "AzureSqlDatabase1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "split1"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ROLL_NO as integer,",
+				"          FIRST_NAME as string,",
+				"          MIDDLE_NAME as string,",
+				"          LAST_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'query',",
+				"     store: 'sqlserver',",
+				"     query: 'SELECT ROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME,\\nLAST_NAME\\nFROM DBO.STUDENT_LIST',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"source1 split(ROLL_NO==100,",
+				"     ROLL_NO==101,",
+				"     disjoint: true) ~> split1@(rajani, vilasitha, default)",
+				"split1@rajani derive(Full_name = concat(FIRST_NAME,MIDDLE_NAME,LAST_NAME),",
+				"          Initails = concat(substring(FIRST_NAME,1,1),substring(MIDDLE_NAME1,1),substring(LAST_NAME,1,1))) ~> derivedColumn1"
+			]
+		}
+	}
+}
