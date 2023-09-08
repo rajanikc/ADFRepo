@@ -29,6 +29,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"ParamTableName": {
+				"type": "string",
+				"defaultValue": "STUDENT_LIST"
+			}
+		},
 		"variables": {
 			"VarFileName": {
 				"type": "String"
