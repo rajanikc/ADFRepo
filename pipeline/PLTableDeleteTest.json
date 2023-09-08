@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LkpActStudentList",
-				"type": "Lookup",
+				"name": "Script1",
+				"type": "Script",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -14,18 +14,18 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": "DELETE FROM STUDENT_LIST",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "AzureSqlTable1",
-						"type": "DatasetReference"
-					},
-					"firstRowOnly": false
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "DELETE FROM DBO.STUDENT_LIST"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
