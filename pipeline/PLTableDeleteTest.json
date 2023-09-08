@@ -1,0 +1,49 @@
+{
+	"name": "PLTableDeleteTest",
+	"properties": {
+		"activities": [
+			{
+				"name": "LkpActStudentList",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "DSAzureBlobStrgFileListLkpActivity",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"variables": {
+			"VarFileName": {
+				"type": "String"
+			},
+			"VarFileName2": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-09-05T17:42:20Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
