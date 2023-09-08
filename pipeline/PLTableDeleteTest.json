@@ -23,7 +23,7 @@
 						{
 							"type": "Query",
 							"text": {
-								"value": "@concat('DELETE FROM DBO.',pipeline().parameters.ParamTableName)",
+								"value": "@concat('TRUNCATE TABLE DBO.',pipeline().parameters.ParamTableName)",
 								"type": "Expression"
 							}
 						}
