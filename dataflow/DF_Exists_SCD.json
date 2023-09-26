@@ -1,0 +1,58 @@
+{
+	"name": "DF_Exists_SCD",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentSrc",
+						"type": "DatasetReference"
+					},
+					"name": "StudentSrcTbl"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentDim",
+						"type": "DatasetReference"
+					},
+					"name": "StudentDimTbl"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "exists1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ROLL_NO as integer,",
+				"          FIRST_NAME as string,",
+				"          MIDDLE_NAME as string,",
+				"          LAST_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT  ROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME,\\nLAST_NAME FROM DBO.STUDENT_SRC\\n',",
+				"     format: 'query') ~> StudentSrcTbl",
+				"source(output(",
+				"          STUDENT_SKEY as integer,",
+				"          ROLL_NO as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          FULL_NAME as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT\\nSTUDENT_SKEY,\\nROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME\\nLAST_NAME,\\nFULL_NAME\\nFROM DBO.STUDENT_DIM',",
+				"     format: 'query') ~> StudentDimTbl",
+				"StudentSrcTbl exists(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1"
+			]
+		}
+	}
+}
