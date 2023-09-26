@@ -23,6 +23,9 @@
 			],
 			"transformations": [
 				{
+					"name": "derivedColumn1"
+				},
+				{
 					"name": "alterRow1"
 				}
 			],
@@ -33,9 +36,10 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 alterRow(updateIf(1===1)) ~> alterRow1",
+				"source1 derive(Flag = 'Y') ~> derivedColumn1",
+				"derivedColumn1 alterRow(updateIf(1===1)) ~> alterRow1",
 				"alterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
@@ -45,9 +49,12 @@
 				"     deletable: false,",
 				"     upsertable: false,",
 				"     keys:['Roll_No'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          Roll_No",
+				"          Roll_No,",
+				"          Flag",
 				"     )) ~> sink1"
 			]
 		}
