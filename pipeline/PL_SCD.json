@@ -29,8 +29,8 @@
 				}
 			},
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
+				"name": "ForEach1",
+				"type": "ForEach",
 				"dependsOn": [
 					{
 						"activity": "LkpMaxSurrKey",
@@ -39,17 +39,31 @@
 						]
 					}
 				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "maxkey",
-					"value": {
-						"value": "@activity('LkpMaxSurrKey').output.maxkey.value.maxkey",
+					"items": {
+						"value": "@activity('LkpMaxSurrKey').output.value",
 						"type": "Expression"
-					}
+					},
+					"activities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "maxkey",
+								"value": {
+									"value": "@item().MAXKEY",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
