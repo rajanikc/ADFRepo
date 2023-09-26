@@ -28,7 +28,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "STUDENT_LIST"
+			"table": "TEST"
 		}
 	},
 	"type": "Microsoft.DataFactory/factories/datasets"
