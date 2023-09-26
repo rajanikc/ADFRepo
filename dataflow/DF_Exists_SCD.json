@@ -21,12 +21,16 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentDim",
+						"type": "DatasetReference"
+					},
 					"name": "StudentDimSink"
 				}
 			],
 			"transformations": [
 				{
-					"name": "NewStudent",
+					"name": "NewStudentCheck",
 					"description": "Checks for new students"
 				},
 				{
@@ -34,6 +38,9 @@
 				},
 				{
 					"name": "StudentSkey"
+				},
+				{
+					"name": "DropSkeyIncField"
 				}
 			],
 			"scriptLines": [
@@ -65,18 +72,60 @@
 				"     format: 'query') ~> StudentDimTblRef",
 				"StudentSrcTbl, StudentDimTblRef exists(StudentSrcTbl@ROLL_NO == StudentDimTblRef@ROLL_NO,",
 				"     negate:true,",
-				"     broadcast: 'auto')~> NewStudent",
+				"     broadcast: 'auto')~> NewStudentCheck",
 				"StudentSkey derive(FULL_NAME = concat(FIRST_NAME, ' ', MIDDLE_NAME, ' ',LAST_NAME),",
 				"          START_DATE = currentDate(),",
 				"          END_DATE = toDate('9999-01-01'),",
-				"          STUDENT_SKEY = STUDENT_INC_SKEY+$MaxSurrKey) ~> DeriveStudentColumns",
-				"NewStudent keyGenerate(output(STUDENT_INC_SKEY as long),",
+				"          STUDENT_SKEY = STUDENT_INC_SKEY+$MaxSurrKey,",
+				"          ACTIVE_FLAG = 'Y') ~> DeriveStudentColumns",
+				"NewStudentCheck keyGenerate(output(STUDENT_INC_SKEY as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> StudentSkey",
-				"DeriveStudentColumns sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"DeriveStudentColumns select(mapColumn(",
+				"          ROLL_NO,",
+				"          FIRST_NAME,",
+				"          MIDDLE_NAME,",
+				"          LAST_NAME,",
+				"          FULL_NAME,",
+				"          START_DATE,",
+				"          END_DATE,",
+				"          STUDENT_SKEY,",
+				"          ACTIVE_FLAG",
+				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> StudentDimSink"
+				"     skipDuplicateMapOutputs: true) ~> DropSkeyIncField",
+				"DropSkeyIncField sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          STUDENT_SKEY as integer,",
+				"          roll_no as integer,",
+				"          first_name as string,",
+				"          middle_name as string,",
+				"          last_name as string,",
+				"          full_name as string,",
+				"          START_DATE as date,",
+				"          END_DATE as date,",
+				"          ACTIVE_FLAG as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          STUDENT_SKEY,",
+				"          roll_no = ROLL_NO,",
+				"          first_name = FIRST_NAME,",
+				"          middle_name = MIDDLE_NAME,",
+				"          last_name = LAST_NAME,",
+				"          full_name = FULL_NAME,",
+				"          START_DATE,",
+				"          END_DATE,",
+				"          ACTIVE_FLAG",
+				"     )) ~> StudentDimSink"
 			]
 		}
 	}
