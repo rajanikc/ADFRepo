@@ -52,10 +52,10 @@
 					"name": "SplitUpdateRecords"
 				},
 				{
-					"name": "select1"
+					"name": "selectUpdateColumns"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "UnionInsertandUpdate"
 				}
 			],
 			"scriptLines": [
@@ -106,7 +106,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropSkeyIncField",
-				"DeriveStudentColumns keyGenerate(output(STUDENT_SKEY_INCR as long),",
+				"UnionInsertandUpdate keyGenerate(output(STUDENT_SKEY_INCR as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> StudSurrogateKey",
 				"StudSurrogateKey derive(STUDENT_SKEY = STUDENT_SKEY_INCR+$MaxSurrKey) ~> derivedColumn1",
@@ -115,19 +115,16 @@
 				"     pickup: 'any',",
 				"     broadcast: 'auto')~> LkpExistingStudents",
 				"LkpExistingStudents split(!isNull(STUDENT_SKEY_TARGET) && (FIRST_NAME != FIRST_NAME_TARGET || MIDDLE_NAME != MIDDLE_NAME_TARGET || LAST_NAME_TARGET != LAST_NAME_TARGET),",
-				"     disjoint: false) ~> SplitUpdateRecords@(UpdateRecords)",
+				"     disjoint: false) ~> SplitUpdateRecords@(UpdateRecords, DefaultStream)",
 				"SplitUpdateRecords@UpdateRecords select(mapColumn(",
-				"          ROLL_NO = SplitUpdateRecords@ROLL_NO,",
+				"          ROLL_NO = SplitUpdateRecords@UpdateRecords@ROLL_NO,",
 				"          FIRST_NAME,",
 				"          MIDDLE_NAME,",
 				"          LAST_NAME",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(FULL_NAME = concat(FIRST_NAME, ' ', MIDDLE_NAME, ' ',LAST_NAME),",
-				"          START_DATE = currentDate(),",
-				"          END_DATE = toDate('9999-01-01'),",
-				"          ACTIVE_FLAG = 'Y') ~> derivedColumn2",
+				"     skipDuplicateMapOutputs: true) ~> selectUpdateColumns",
+				"DeriveStudentColumns, selectUpdateColumns union(byName: true)~> UnionInsertandUpdate",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
