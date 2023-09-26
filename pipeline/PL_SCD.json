@@ -42,25 +42,38 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('LkpMaxSurrKey').output.value",
+						"value": "@activity('Data flow1').output.value",
 						"type": "Expression"
 					},
 					"activities": [
 						{
-							"name": "Set variable1",
-							"type": "SetVariable",
+							"name": "Data flow1",
+							"type": "ExecuteDataFlow",
 							"dependsOn": [],
 							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
 								"secureOutput": false,
 								"secureInput": false
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "maxkey",
-								"value": {
-									"value": "@item().MAXKEY",
-									"type": "Expression"
-								}
+								"dataflow": {
+									"referenceName": "DF_Exists_SCD",
+									"type": "DataFlowReference",
+									"parameters": {
+										"MaxSurrKey": {
+											"value": "@item().MAXKEY",
+											"type": "Expression"
+										}
+									}
+								},
+								"compute": {
+									"coreCount": 8,
+									"computeType": "General"
+								},
+								"traceLevel": "Fine"
 							}
 						}
 					]
