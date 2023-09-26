@@ -9,20 +9,12 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
-				"name": "ROLL_NO",
+				"name": "roll_no",
 				"type": "int",
 				"precision": 10
 			},
 			{
-				"name": "FIRST_NAME",
-				"type": "varchar"
-			},
-			{
-				"name": "MIDDLE_NAME",
-				"type": "varchar"
-			},
-			{
-				"name": "LAST_NAME",
+				"name": "flag",
 				"type": "varchar"
 			}
 		],
