@@ -71,7 +71,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT\\nSTUDENT_SKEY,\\nROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME\\nLAST_NAME,\\nFULL_NAME\\nFROM DBO.STUDENT_DIM',",
+				"     query: 'SELECT\\nSTUDENT_SKEY,\\nROLL_NO,\\nFIRST_NAME,\\nMIDDLE_NAME\\nLAST_NAME,\\nFULL_NAME\\nFROM DBO.STUDENT_DIM\\nWHERE ACTIVE_FLAG = \\'Y\\'',",
 				"     format: 'query') ~> StudentDimTblRef",
 				"StudentSrcTbl, StudentDimTblRef exists(StudentSrcTbl@ROLL_NO == StudentDimTblRef@ROLL_NO,",
 				"     negate:true,",
