@@ -29,7 +29,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "GetMaxValue",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -47,7 +47,7 @@
 					},
 					"activities": [
 						{
-							"name": "Data flow1",
+							"name": "DF_SCD_Exists",
 							"type": "ExecuteDataFlow",
 							"dependsOn": [],
 							"policy": {
