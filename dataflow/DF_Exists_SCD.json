@@ -37,15 +37,18 @@
 					"name": "DeriveStudentColumns"
 				},
 				{
-					"name": "StudentSkey"
+					"name": "DropSkeyIncField"
 				},
 				{
-					"name": "DropSkeyIncField"
+					"name": "StudSurrogateKey"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     MaxSurrKey as integer (0)",
+				"     MaxSurrKey as integer (100)",
 				"}",
 				"source(output(",
 				"          ROLL_NO as integer,",
@@ -73,15 +76,11 @@
 				"StudentSrcTbl, StudentDimTblRef exists(StudentSrcTbl@ROLL_NO == StudentDimTblRef@ROLL_NO,",
 				"     negate:true,",
 				"     broadcast: 'auto')~> NewStudentCheck",
-				"StudentSkey derive(FULL_NAME = concat(FIRST_NAME, ' ', MIDDLE_NAME, ' ',LAST_NAME),",
+				"NewStudentCheck derive(FULL_NAME = concat(FIRST_NAME, ' ', MIDDLE_NAME, ' ',LAST_NAME),",
 				"          START_DATE = currentDate(),",
 				"          END_DATE = toDate('9999-01-01'),",
-				"          STUDENT_SKEY = STUDENT_INC_SKEY+$MaxSurrKey,",
 				"          ACTIVE_FLAG = 'Y') ~> DeriveStudentColumns",
-				"NewStudentCheck keyGenerate(output(STUDENT_INC_SKEY as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> StudentSkey",
-				"DeriveStudentColumns select(mapColumn(",
+				"derivedColumn1 select(mapColumn(",
 				"          ROLL_NO,",
 				"          FIRST_NAME,",
 				"          MIDDLE_NAME,",
@@ -89,11 +88,15 @@
 				"          FULL_NAME,",
 				"          START_DATE,",
 				"          END_DATE,",
-				"          STUDENT_SKEY,",
-				"          ACTIVE_FLAG",
+				"          ACTIVE_FLAG,",
+				"          STUDENT_SKEY",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> DropSkeyIncField",
+				"DeriveStudentColumns keyGenerate(output(STUDENT_SKEY_INCR as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> StudSurrogateKey",
+				"StudSurrogateKey derive(STUDENT_SKEY = STUDENT_SKEY_INCR+$MaxSurrKey) ~> derivedColumn1",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
