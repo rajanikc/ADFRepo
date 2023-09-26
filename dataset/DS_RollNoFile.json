@@ -1,0 +1,28 @@
+{
+	"name": "DS_RollNoFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServices_ADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "RollNos.txt",
+				"folderPath": "inputdirectory",
+				"fileSystem": "adlscontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": ""
+		},
+		"schema": [
+			{
+				"type": "String"
+			}
+		]
+	}
+}
