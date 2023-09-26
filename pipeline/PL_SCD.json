@@ -42,7 +42,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Data flow1').output.value",
+						"value": "@activity('LkpMaxSurrKey').output.value",
 						"type": "Expression"
 					},
 					"activities": [
