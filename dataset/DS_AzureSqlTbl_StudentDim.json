@@ -1,0 +1,55 @@
+{
+	"name": "DS_AzureSqlTbl_StudentDim",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "STUDENT_SKEY",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "roll_no",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "first_name",
+				"type": "varchar"
+			},
+			{
+				"name": "middle_name",
+				"type": "varchar"
+			},
+			{
+				"name": "last_name",
+				"type": "varchar"
+			},
+			{
+				"name": "full_name",
+				"type": "varchar"
+			},
+			{
+				"name": "START_DATE",
+				"type": "date"
+			},
+			{
+				"name": "END_DATE",
+				"type": "date"
+			},
+			{
+				"name": "ACTIVE_FLAG",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "student_dim"
+		}
+	}
+}
