@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT MAX(NVL(SYUDENT_SKEY,0)) FROM DBO.STUDENT_DIM",
+						"sqlReaderQuery": "SELECT MAX(ISNULL(STUDENT_SKEY,0)) MAXKEY FROM DBO.STUDENT_DIM",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -27,18 +27,13 @@
 					},
 					"firstRowOnly": false
 				}
-			},
-			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": []
 			}
 		],
+		"variables": {
+			"maxkey": {
+				"type": "Integer"
+			}
+		},
 		"annotations": []
 	}
 }
