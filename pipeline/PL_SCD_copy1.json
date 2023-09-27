@@ -1,0 +1,63 @@
+{
+	"name": "PL_SCD_copy1",
+	"properties": {
+		"activities": [
+			{
+				"name": "LkpMaxSurrKey",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT ISNULL(MAX(STUDENT_SKEY),0) MAXKEY FROM DBO.STUDENT_DIM",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentDim",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "LkpMaxSurrKey",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "maxkeylist",
+					"value": {
+						"value": "@activity('LkpMaxSurrKey').output.value",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"maxkeylist": {
+				"type": "Array"
+			}
+		},
+		"annotations": []
+	}
+}
