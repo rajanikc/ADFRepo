@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "StudentDimSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentDim",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRetirePrevRecord"
 				}
 			],
 			"transformations": [
@@ -61,7 +68,13 @@
 					"name": "SelectKeyToUpdate"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "derivedColumnUpdateRecords"
+				},
+				{
+					"name": "DerivedColumnsRetirePrevRecord"
+				},
+				{
+					"name": "AlterRowRetireRecord"
 				}
 			],
 			"scriptLines": [
@@ -130,7 +143,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectUpdateColumns",
-				"DeriveStudentColumns, selectUpdateColumns union(byName: true)~> UnionInsertandUpdate",
+				"DeriveStudentColumns, derivedColumnUpdateRecords union(byName: true)~> UnionInsertandUpdate",
 				"SplitUpdateRecordsToUpdate@UpdateRecords select(mapColumn(",
 				"          STUDENT_SKEY = STUDENT_SKEY_TARGET",
 				"     ),",
@@ -139,7 +152,10 @@
 				"selectUpdateColumns derive(FULL_NAME = concat(FIRST_NAME, ' ', MIDDLE_NAME, ' ',LAST_NAME),",
 				"          START_DATE = currentDate(),",
 				"          END_DATE = toDate('9999-01-01'),",
-				"          ACTIVE_FLAG = 'Y') ~> derivedColumn2",
+				"          ACTIVE_FLAG = 'Y') ~> derivedColumnUpdateRecords",
+				"SelectKeyToUpdate derive(END_DATE = currentDate()-1,",
+				"          ACTIVE_FLAG = 'N') ~> DerivedColumnsRetirePrevRecord",
+				"DerivedColumnsRetirePrevRecord alterRow(updateIf(1==1)) ~> AlterRowRetireRecord",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -171,7 +187,28 @@
 				"          START_DATE,",
 				"          END_DATE,",
 				"          ACTIVE_FLAG",
-				"     )) ~> StudentDimSink"
+				"     )) ~> StudentDimSink",
+				"AlterRowRetireRecord sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          STUDENT_SKEY as integer,",
+				"          roll_no as integer,",
+				"          first_name as string,",
+				"          middle_name as string,",
+				"          last_name as string,",
+				"          full_name as string,",
+				"          START_DATE as date,",
+				"          END_DATE as date,",
+				"          ACTIVE_FLAG as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkRetirePrevRecord"
 			]
 		}
 	}
