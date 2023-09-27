@@ -58,7 +58,7 @@
 					"name": "UnionInsertandUpdate"
 				},
 				{
-					"name": "select1"
+					"name": "SelectKeyToUpdate"
 				}
 			],
 			"scriptLines": [
@@ -132,7 +132,7 @@
 				"          STUDENT_SKEY = STUDENT_SKEY_TARGET",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
+				"     skipDuplicateMapOutputs: true) ~> SelectKeyToUpdate",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
