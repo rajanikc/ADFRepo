@@ -75,6 +75,15 @@
 				},
 				{
 					"name": "AlterRowRetireRecord"
+				},
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "selectKeysToDelete"
+				},
+				{
+					"name": "UnionUpdateDeleteKeys"
 				}
 			],
 			"scriptLines": [
@@ -153,9 +162,18 @@
 				"          START_DATE = currentDate(),",
 				"          END_DATE = toDate('9999-01-01'),",
 				"          ACTIVE_FLAG = 'Y') ~> derivedColumnUpdateRecords",
-				"SelectKeyToUpdate derive(END_DATE = currentDate()-1,",
+				"UnionUpdateDeleteKeys derive(END_DATE = currentDate()-1,",
 				"          ACTIVE_FLAG = 'N') ~> DerivedColumnsRetirePrevRecord",
 				"DerivedColumnsRetirePrevRecord alterRow(updateIf(1==1)) ~> AlterRowRetireRecord",
+				"StudentDimTblRef, StudentSrcTblBranch1 exists(StudentDimTblRef@ROLL_NO == StudentSrcTblBranch1@ROLL_NO,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"exists1 select(mapColumn(",
+				"          STUDENT_SKEY = STUDENT_SKEY_TARGET",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectKeysToDelete",
+				"SelectKeyToUpdate, selectKeysToDelete union(byName: true)~> UnionUpdateDeleteKeys",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
