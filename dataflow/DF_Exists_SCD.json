@@ -59,6 +59,9 @@
 				},
 				{
 					"name": "SelectKeyToUpdate"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -133,6 +136,10 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> SelectKeyToUpdate",
+				"selectUpdateColumns derive(FULL_NAME = ERROR_FUNCTION(''),",
+				"          START_DATE = ERROR_FUNCTION(''),",
+				"          END_DATE = ERROR_FUNCTION(''),",
+				"          ACTIVE_FLAG = ERROR_FUNCTION('')) ~> derivedColumn2",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
