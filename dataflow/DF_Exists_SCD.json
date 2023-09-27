@@ -202,13 +202,19 @@
 				"          ACTIVE_FLAG as string",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
 				"     upsertable:false,",
+				"     keys:['STUDENT_SKEY'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> SinkRetirePrevRecord"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          STUDENT_SKEY,",
+				"          END_DATE,",
+				"          ACTIVE_FLAG",
+				"     )) ~> SinkRetirePrevRecord"
 			]
 		}
 	}
