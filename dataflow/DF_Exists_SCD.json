@@ -26,6 +26,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "StudentDimSink"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_AzureSqlTbl_StudentDim",
+						"type": "DatasetReference"
+					},
+					"name": "StudentDimUpdate"
 				}
 			],
 			"transformations": [
@@ -49,13 +56,19 @@
 					"name": "LkpExistingStudents"
 				},
 				{
-					"name": "SplitUpdateRecords"
+					"name": "SplitUpdateRecordsToUpdate"
 				},
 				{
 					"name": "selectUpdateColumns"
 				},
 				{
 					"name": "UnionInsertandUpdate"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -115,9 +128,9 @@
 				"     pickup: 'any',",
 				"     broadcast: 'auto')~> LkpExistingStudents",
 				"LkpExistingStudents split(!isNull(STUDENT_SKEY_TARGET) && (FIRST_NAME != FIRST_NAME_TARGET || MIDDLE_NAME != MIDDLE_NAME_TARGET || LAST_NAME_TARGET != LAST_NAME_TARGET),",
-				"     disjoint: false) ~> SplitUpdateRecords@(UpdateRecords, DefaultStream)",
-				"SplitUpdateRecords@UpdateRecords select(mapColumn(",
-				"          ROLL_NO = SplitUpdateRecords@UpdateRecords@ROLL_NO,",
+				"     disjoint: false) ~> SplitUpdateRecordsToUpdate@(UpdateRecords, DefaultStream)",
+				"SplitUpdateRecordsToUpdate@UpdateRecords select(mapColumn(",
+				"          ROLL_NO = SplitUpdateRecordsToUpdate@UpdateRecords@ROLL_NO,",
 				"          FIRST_NAME,",
 				"          MIDDLE_NAME,",
 				"          LAST_NAME",
@@ -125,6 +138,13 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectUpdateColumns",
 				"DeriveStudentColumns, selectUpdateColumns union(byName: true)~> UnionInsertandUpdate",
+				"SplitUpdateRecordsToUpdate@UpdateRecords select(mapColumn(",
+				"          STUDENT_SKEY = STUDENT_SKEY_TARGET",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"selectUpdateColumns derive(END_DATE = currentDate()-1,",
+				"          ACTIVE_FLAG = 'N') ~> derivedColumn2",
 				"DropSkeyIncField sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -156,7 +176,28 @@
 				"          START_DATE,",
 				"          END_DATE,",
 				"          ACTIVE_FLAG",
-				"     )) ~> StudentDimSink"
+				"     )) ~> StudentDimSink",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          STUDENT_SKEY as integer,",
+				"          roll_no as integer,",
+				"          first_name as string,",
+				"          middle_name as string,",
+				"          last_name as string,",
+				"          full_name as string,",
+				"          START_DATE as date,",
+				"          END_DATE as date,",
+				"          ACTIVE_FLAG as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> StudentDimUpdate"
 			]
 		}
 	}
