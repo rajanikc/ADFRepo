@@ -13,7 +13,16 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "dbo.@{pipeline().parameters.ParamSrcTableName}"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.@{pipeline().parameters.ParamTrgtTableName}"
+					}
+				],
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
@@ -29,9 +38,7 @@
 						"writeBehavior": "upsert",
 						"upsertSettings": {
 							"useTempDB": true,
-							"keys": [
-								""
-							]
+							"keys": []
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
@@ -39,6 +46,56 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "roll_no",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "roll_no",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "first_name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "first_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "middle_name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "middle_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "last_name",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "last_name",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -49,13 +106,25 @@
 				"inputs": [
 					{
 						"referenceName": "DS_AzureSqlTbl_StudentSrc",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"ParamTblName": {
+								"value": "@pipeline().parameters.ParamSrcTableName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "DS_AzureSqlTbl_StudentSrc",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"ParamTblName": {
+								"value": "@pipeline().parameters.ParamTrgtTableName",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
