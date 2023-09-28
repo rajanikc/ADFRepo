@@ -5,6 +5,11 @@
 			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"ParamTblName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
@@ -28,7 +33,10 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "student_src"
+			"table": {
+				"value": "@dataset().ParamTblName",
+				"type": "Expression"
+			}
 		}
 	}
 }
