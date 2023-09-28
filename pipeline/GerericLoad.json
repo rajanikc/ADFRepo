@@ -36,7 +36,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{if(equals(pipeline().parameters.TruncateFlag('Y'),'A'))}",
+							"value": "equals(pipeline().parameters.TruncateFlag),'Y','DELETE FROM DBO.STUDENT')",
 							"type": "Expression"
 						},
 						"writeBehavior": "insert",
@@ -87,7 +87,8 @@
 				"type": "string"
 			},
 			"TruncateFlag": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Y"
 			}
 		},
 		"annotations": [],
