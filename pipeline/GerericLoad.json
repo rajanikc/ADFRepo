@@ -1,38 +1,71 @@
 {
-	"name": "pipeline1",
+	"name": "GerericLoad",
 	"properties": {
 		"activities": [
 			{
-				"name": "Var23",
-				"type": "SetVariable",
+				"name": "CopyTables",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "var2",
-					"value": {
-						"value": "@formatDateTime(pipeline().TriggerTime, 'MMddyyyy')",
-						"type": "Expression"
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@concat('select* from dbo.',pipeline().parameters.ParamSrcTableName)",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								""
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
 					}
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "DS_AzureSqlTbl_StudentSrc",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_AzureSqlTbl_StudentSrc",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"parameters": {
-			"InputFileName": {
-				"type": "string",
-				"defaultValue": "Rajani1.txt"
+			"ParamSrcTableName": {
+				"type": "string"
 			},
-			"OutPutFileNmae": {
-				"type": "string",
-				"defaultValue": "Rajani_Output.txt"
-			}
-		},
-		"variables": {
-			"var2": {
-				"type": "String"
+			"ParamTrgtTableName": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
