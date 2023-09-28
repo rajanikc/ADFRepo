@@ -36,7 +36,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{concat('DELETE FROM DB.',pipeline().parameters.ParamTrgtTableName)}",
+							"value": "@{concat('DELETE FROM DBO.',pipeline().parameters.ParamTrgtTableName)}",
 							"type": "Expression"
 						},
 						"writeBehavior": "insert",
