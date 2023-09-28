@@ -85,6 +85,9 @@
 			},
 			"ParamTrgtTableName": {
 				"type": "string"
+			},
+			"TruncateFlag": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
