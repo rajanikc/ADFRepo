@@ -23,7 +23,10 @@
 					},
 					"dataset": {
 						"referenceName": "DS_AzureSqlTbl_StudentSrc",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"ParamTblName": "xxxx"
+						}
 					},
 					"firstRowOnly": false
 				}
