@@ -60,7 +60,17 @@
 									"referenceName": "GerericLoad",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": false
+								"waitOnCompletion": false,
+								"parameters": {
+									"ParamSrcTableName": {
+										"value": "@item().src_tbl_name",
+										"type": "Expression"
+									},
+									"ParamTrgtTableName": {
+										"value": "@item().target_table_name",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]
