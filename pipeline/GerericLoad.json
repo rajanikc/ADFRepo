@@ -88,7 +88,7 @@
 			},
 			"TruncateFlag": {
 				"type": "string",
-				"defaultValue": "Y"
+				"defaultValue": "'Y'"
 			}
 		},
 		"annotations": [],
