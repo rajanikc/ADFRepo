@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT src_tbl_name,\ntarget_table_name FROM DBO.ETL_CNTL_TBL",
+						"sqlReaderQuery": "SELECT src_tbl_name,\ntarget_table_name,\ntruncate_flag FROM DBO.ETL_CNTL_TBL",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
