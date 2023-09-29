@@ -69,6 +69,10 @@
 									"ParamTrgtTableName": {
 										"value": "@item().target_table_name",
 										"type": "Expression"
+									},
+									"TruncateFlag": {
+										"value": "Y",
+										"type": "Expression"
 									}
 								}
 							}
