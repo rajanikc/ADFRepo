@@ -36,7 +36,7 @@
 					"sink": {
 						"type": "AzureSqlSink",
 						"preCopyScript": {
-							"value": "@{if(equals(pipeline().parameters.TruncateFlag,'Y'),concat('TRUNCATE TABLE ',pipeline().parameters.ParamTrgtTableName),'X')}",
+							"value": "@{if(equals(pipeline().parameters.TruncateFlag,'Y'),concat('TRUNCATE TABLE ',pipeline().parameters.ParamTrgtTableName),'SELECT 2')}",
 							"type": "Expression"
 						},
 						"writeBehavior": "insert",
