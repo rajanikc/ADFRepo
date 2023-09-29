@@ -71,7 +71,7 @@
 										"type": "Expression"
 									},
 									"TruncateFlag": {
-										"value": "Y",
+										"value": "@item().TruncateFlag",
 										"type": "Expression"
 									}
 								}
