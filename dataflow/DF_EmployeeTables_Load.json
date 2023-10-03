@@ -5,36 +5,59 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"linkedService": {
-						"referenceName": "LSAzureDLS",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "DSEmployeeList",
+						"type": "DatasetReference"
 					},
-					"name": "SourceEmployee"
+					"name": "source1"
 				}
 			],
 			"sinks": [
 				{
+					"linkedService": {
+						"referenceName": "LSAzureSqlDatabase",
+						"type": "LinkedServiceReference"
+					},
 					"name": "sink1"
 				}
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(useSchema: false,",
+				"source(output(",
+				"          IdNumber as integer,",
+				"          EmployeeFirstName as string,",
+				"          EmployeeLastName as string,",
+				"          update_date as date",
+				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     format: 'delimited',",
-				"     fileSystem: 'adlscontainer',",
-				"     folderPath: 'InputDirectory',",
-				"     fileName: 'Employees_list.txt',",
-				"     columnDelimiter: ',',",
-				"     escapeChar: '\\\\',",
-				"     quoteChar: '',",
-				"     columnNamesAsHeader: false) ~> SourceEmployee",
-				"SourceEmployee sink(allowSchemaDrift: true,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          idnumber as integer,",
+				"          employeefirstname as string,",
+				"          employeelastname as string,",
+				"          update_date as date",
+				"     ),",
+				"     format: 'table',",
+				"     store: 'sqlserver',",
+				"     schemaName: 'dbo',",
+				"     tableName: 'employee_list',",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     deletable: false,",
+				"     upsertable: false,",
+				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          idnumber = IdNumber,",
+				"          employeefirstname = EmployeeFirstName,",
+				"          employeelastname = EmployeeLastName,",
+				"          update_date",
+				"     )) ~> sink1"
 			]
 		}
 	}
