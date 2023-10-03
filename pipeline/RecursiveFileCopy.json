@@ -74,10 +74,12 @@
 		],
 		"parameters": {
 			"PrmFileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Employees_list.txt"
 			},
 			"TableName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "Employee_list"
 			}
 		},
 		"annotations": []
