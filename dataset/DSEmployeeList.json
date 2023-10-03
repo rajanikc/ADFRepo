@@ -5,12 +5,20 @@
 			"referenceName": "LSAzureDLS",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"PrmFileName": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Employees_list.txt",
+				"fileName": {
+					"value": "@dataset().PrmFileName",
+					"type": "Expression"
+				},
 				"folderPath": "InputDirectory",
 				"fileSystem": "adlscontainer"
 			},
