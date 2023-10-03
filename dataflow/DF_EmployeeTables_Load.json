@@ -35,7 +35,7 @@
 				"     columnDelimiter: ',',",
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '',",
-				"     columnNamesAsHeader: false) ~> source1",
+				"     columnNamesAsHeader: true) ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
