@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "Employees_list.txt",
 				"folderPath": "InputDirectory",
 				"fileSystem": "adlscontainer"
 			},
