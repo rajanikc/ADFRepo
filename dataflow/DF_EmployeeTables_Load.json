@@ -5,9 +5,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "DSEmployeeList",
-						"type": "DatasetReference"
+					"linkedService": {
+						"referenceName": "LSAzureDLS",
+						"type": "LinkedServiceReference"
 					},
 					"name": "source1"
 				}
@@ -23,15 +23,19 @@
 			],
 			"transformations": [],
 			"scriptLines": [
-				"source(output(",
-				"          IdNumber as integer,",
-				"          EmployeeFirstName as string,",
-				"          EmployeeLastName as string,",
-				"          update_date as date",
-				"     ),",
+				"source(useSchema: false,",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     inferDriftedColumnTypes: true,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'adlscontainer',",
+				"     folderPath: 'InputDirectory',",
+				"     fileName: 'Employees_list.txt',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '',",
+				"     columnNamesAsHeader: false) ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -51,13 +55,7 @@
 				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          idnumber = IdNumber,",
-				"          employeefirstname = EmployeeFirstName,",
-				"          employeelastname = EmployeeLastName,",
-				"          update_date",
-				"     )) ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
