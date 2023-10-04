@@ -51,7 +51,7 @@
 				"     format: 'table',",
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
-				"     tableName: 'employee_list',",
+				"     tableName: ($TableName),",
 				"     insertable: true,",
 				"     updateable: false,",
 				"     deletable: false,",
