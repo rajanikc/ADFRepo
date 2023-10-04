@@ -17,7 +17,17 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "DF_EmployeeTables_Load",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"PrmFileName": {
+								"value": "'@{pipeline().parameters.PrmFileName}'",
+								"type": "Expression"
+							},
+							"TableName": {
+								"value": "'@{pipeline().parameters.TableName}'",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
