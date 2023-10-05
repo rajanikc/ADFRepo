@@ -12,7 +12,15 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "LSAzureDLS",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
@@ -25,7 +33,22 @@
 				"     format: 'query',",
 				"     store: 'sqlserver',",
 				"     query: (case \\r\\n(\\r\\n$pDeltaFlag == 'Y', concat('SELECT * FROM DBO.',$pSrcTblName,'WHERE ETL_UPDATE_TIMESTAMP >',$pUpdTimeStamp),\\r\\n$pDeltaFlag == 'N', concat('SELECT * FROM DBO.',$pSrcTblName,'WHERE ETL_UPDATE_TIMESTAMP >','1900-01-0')\\r\\n)),",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1"
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     fileSystem: 'adlscontainer',",
+				"     folderPath: 'OutputDirectory',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false,",
+				"     partitionFileNames:['TEST1.txt'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
