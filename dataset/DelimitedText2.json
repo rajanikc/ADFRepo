@@ -1,0 +1,45 @@
+{
+	"name": "DelimitedText2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSAzureDLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "test.txt",
+				"folderPath": "OutputDirectory",
+				"fileSystem": "adlscontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "idnumber",
+				"type": "String"
+			},
+			{
+				"name": "designation",
+				"type": "String"
+			},
+			{
+				"name": "ETL_CREATE_TIMESTAMP",
+				"type": "String"
+			},
+			{
+				"name": "ETL_UPDATE_TIMESTAMP",
+				"type": "String"
+			},
+			{
+				"name": "ETL_ACTIVE_FLAG",
+				"type": "String"
+			}
+		]
+	}
+}

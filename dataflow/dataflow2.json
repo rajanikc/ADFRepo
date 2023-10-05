@@ -6,21 +6,48 @@
 			"sources": [
 				{
 					"linkedService": {
-						"referenceName": "AzureSqlDatabaseLSNew",
+						"referenceName": "AzureSqlDatabase05",
 						"type": "LinkedServiceReference"
 					},
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'query',",
+				"     inferDriftedColumnTypes: true,",
+				"     limit: 100,",
+				"     format: 'table',",
 				"     store: 'sqlserver',",
-				"     query: 'select 1',",
-				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1"
+				"     schemaName: 'dbo',",
+				"     tableName: 'employees_list',",
+				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          idnumber as string,",
+				"          designation as string,",
+				"          ETL_CREATE_TIMESTAMP as string,",
+				"          ETL_UPDATE_TIMESTAMP as string,",
+				"          ETL_ACTIVE_FLAG as string",
+				"     ),",
+				"     partitionFileNames:[''],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
