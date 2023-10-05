@@ -18,14 +18,13 @@
 				"parameters{",
 				"     pSrcTblName as string ('EMPLOYEES_LIST'),",
 				"     pDeltaFlag as string ('Y'),",
-				"     pUpdTimeStamp as string ('1900-01-01')",
+				"     pUpdTimeStamp as string ('2023-10-05 12:00:00')",
 				"}",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'table',",
+				"     format: 'query',",
 				"     store: 'sqlserver',",
-				"     schemaName: '',",
-				"     tableName: '',",
+				"     query: (case \\r\\n($pDeltaFlag == 'Y', concat('SELECT * FROM DBO.',$pSrcTblName,'WHERE ETL_UPDATE_TIMESTAMP >',$pUpdTimeStamp),\\r\\n$pDeltaFlag == 'N', concat('SELECT * FROM DBO.',$pSrcTblName,'WHERE ETL_UPDATE_TIMESTAMP >','1900-01-0')\\r\\n)),",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1"
 			]
 		}
