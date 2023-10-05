@@ -25,20 +25,14 @@
 				],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
+						"type": "AzureSqlSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
+							"type": "AzureBlobFSWriteSettings",
 							"copyBehavior": "PreserveHierarchy"
 						},
 						"formatSettings": {
@@ -53,60 +47,60 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "ROLL_NO",
+									"name": "idnumber",
 									"type": "Int32",
 									"physicalType": "int"
 								},
 								"sink": {
-									"name": "ROLL_NO",
+									"name": "idnumber",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "FIRST_NAME",
+									"name": "designation",
 									"type": "String",
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "FIRST_NAME",
+									"name": "designation",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "MIDDLE_NAME",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "ETL_CREATE_TIMESTAMP",
+									"type": "DateTime",
+									"physicalType": "datetime2"
 								},
 								"sink": {
-									"name": "MIDDLE_NAME",
+									"name": "ETL_CREATE_TIMESTAMP",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "LAST_NAME",
-									"type": "String",
-									"physicalType": "varchar"
+									"name": "ETL_UPDATE_TIMESTAMP",
+									"type": "DateTime",
+									"physicalType": "datetime2"
 								},
 								"sink": {
-									"name": "LAST_NAME",
+									"name": "ETL_UPDATE_TIMESTAMP",
 									"type": "String",
 									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "FULL_NAME",
+									"name": "ETL_ACTIVE_FLAG",
 									"type": "String",
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "FULL_NAME",
+									"name": "ETL_ACTIVE_FLAG",
 									"type": "String",
 									"physicalType": "String"
 								}
@@ -121,7 +115,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "DSAzureEmployeeTables",
 						"type": "DatasetReference"
 					}
 				],
