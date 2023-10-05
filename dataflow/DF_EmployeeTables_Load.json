@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "alterRow1"
 				}
 			],
 			"scriptLines": [
@@ -47,7 +50,8 @@
 				"source1 derive(ETL_CREATE_TIMESTAMP = currentTimestamp(),",
 				"          ETL_UPDATE_TIMESTAMP = currentTimestamp(),",
 				"          ETL_ACTIVE_FLAG = 'Y') ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 alterRow(upsertIf(1==1)) ~> alterRow1",
+				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          idnumber as integer,",
@@ -59,11 +63,11 @@
 				"     store: 'sqlserver',",
 				"     schemaName: 'dbo',",
 				"     tableName: ($TableName),",
-				"     insertable: true,",
+				"     insertable: false,",
 				"     updateable: false,",
 				"     deletable: false,",
-				"     upsertable: false,",
-				"     truncate: true,",
+				"     upsertable: true,",
+				"     keys:['idnumber'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
