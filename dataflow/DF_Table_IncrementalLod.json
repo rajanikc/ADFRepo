@@ -16,7 +16,7 @@
 			"transformations": [],
 			"scriptLines": [
 				"parameters{",
-				"     pSrcTblName as string ('EMPLOYEES_LIST'),",
+				"     pSrcTblName as string ('EMPLOYEE_LIST'),",
 				"     pDeltaFlag as string ('Y'),",
 				"     pUpdTimeStamp as string ('2023-10-05 12:00:00')",
 				"}",
