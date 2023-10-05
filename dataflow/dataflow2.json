@@ -41,7 +41,7 @@
 				"          ETL_UPDATE_TIMESTAMP as string,",
 				"          ETL_ACTIVE_FLAG as string",
 				"     ),",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['test.txt'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
