@@ -2,17 +2,17 @@
 	"name": "BlobStrgStudentList",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LinkdServBlobStrgInput",
+			"referenceName": "LSAzureDLS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobStorageLocation",
-				"fileName": "StudentInfo.txt",
-				"folderPath": "StudentInfo",
-				"container": "blogstorageoutput"
+				"type": "AzureBlobFSLocation",
+				"fileName": "test.txt",
+				"folderPath": "OutputDirectory",
+				"fileSystem": "adlscontainer"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
