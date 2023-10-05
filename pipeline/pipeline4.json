@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "dataflow2",
+				"name": "DF_Table_IncrementalLod",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,8 +16,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow2",
-						"type": "DataFlowReference"
+						"referenceName": "DF_Table_IncrementalLod",
+						"type": "DataFlowReference",
+						"parameters": {
+							"pSrcTblName": "'EMPLOYEE_LIST'",
+							"pDeltaFlag": "'Y'",
+							"pUpdTimeStamp": "'2023-10-05 12:00:00'"
+						}
 					},
 					"compute": {
 						"coreCount": 8,
