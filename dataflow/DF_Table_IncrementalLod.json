@@ -32,7 +32,7 @@
 				"     validateSchema: false,",
 				"     format: 'query',",
 				"     store: 'sqlserver',",
-				"     query: (case($pDeltaFlag == 'Y', concat('SELECT * FROM DBO.',$pSrcTblName,\"WHERE ETL_UPDATE_TIMESTAMP >\",$pUpdTimeStamp), concat('SELECT * FROM DBO.',$pSrcTblName,\"WHERE ETL_UPDATE_TIMESTAMP >\",'1900-01-0'))),",
+				"     query: (case($pDeltaFlag == 'Y', concat('SELECT * FROM DBO.',$pSrcTblName,\"WHERE ETL_UPDATE_TIMESTAMP > \",$pUpdTimeStamp), concat('SELECT * FROM DBO.',$pSrcTblName,\"WHERE ETL_UPDATE_TIMESTAMP > \",'1900-01-0'))),",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
