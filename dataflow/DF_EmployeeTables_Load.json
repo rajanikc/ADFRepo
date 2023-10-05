@@ -46,7 +46,7 @@
 				"     columnNamesAsHeader: true) ~> source1",
 				"source1 derive(ETL_CREATE_TIMESTAMP = currentTimestamp(),",
 				"          ETL_UPDATE_TIMESTAMP = currentTimestamp(),",
-				"          ACTIVE_FLAG = 'Y') ~> derivedColumn1",
+				"          ETL_ACTIVE_FLAG = 'Y') ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
