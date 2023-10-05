@@ -32,7 +32,7 @@
 				"     validateSchema: false,",
 				"     format: 'query',",
 				"     store: 'sqlserver',",
-				"     query: 'SELECT * FROM DBO.EMPLOYEE_LIST',",
+				"     query: (case \\r\\n(\\r\\n$pDeltaFlag == 'Y', concat('SELECT * FROM DBO.',$pSrcTblName),\\r\\n$pDeltaFlag == 'N', concat('SELECT * FROM DBO.',$pSrcTblName)\\r\\n)),",
 				"     isolationLevel: 'READ_UNCOMMITTED') ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
