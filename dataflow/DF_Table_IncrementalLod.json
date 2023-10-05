@@ -1,5 +1,5 @@
 {
-	"name": "dataflow3",
+	"name": "DF_Table_IncrementalLod",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -15,6 +15,11 @@
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
+				"parameters{",
+				"     pSrcTblName as string ('EMPLOYEES_LIST'),",
+				"     pDeltaFlag as string ('Y'),",
+				"     pUpdTimeStamp as string ('1900-01-01')",
+				"}",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
