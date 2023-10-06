@@ -45,7 +45,7 @@
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
 				"     columnNamesAsHeader: true,",
-				"     partitionFileNames:[(concat($pSrcTblName, \"_\",toString($pCurrDate),\".txt\"))],",
+				"     partitionFileNames:[(concat($pSrcTblName, \"_\",toString($pCurrDate,'YYYYMMDD'),\".txt\"))],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
