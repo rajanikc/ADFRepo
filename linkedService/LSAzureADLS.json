@@ -1,0 +1,12 @@
+{
+	"name": "LSAzureADLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=rajaniadls;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDVBN0U5RTZBLTZBRTItNEYxMC1BQTg0LTYwQzlBRjA2NjJEOV9mMmEwZmIzNC00NDNhLTRlNDctOTgwMy0wYzg1N2E4Y2MzZDUiDQp9"
+		}
+	}
+}
