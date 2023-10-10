@@ -1,0 +1,41 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LSAzureADLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Employees_list.txt",
+				"folderPath": "InputFilesDirectory",
+				"container": "adlscontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": ""
+		},
+		"schema": [
+			{
+				"name": "IdNumber",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeFirstName",
+				"type": "String"
+			},
+			{
+				"name": "EmployeeLastName",
+				"type": "String"
+			},
+			{
+				"name": "updatedate",
+				"type": "String"
+			}
+		]
+	}
+}
