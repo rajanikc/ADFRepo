@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "DF_ParquetFileTest",
+						"referenceName": "DF_ParquetFileTest_copy1",
 						"type": "DataFlowReference"
 					},
 					"compute": {
